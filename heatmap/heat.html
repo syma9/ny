@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>311 DBSCAN Heatmap</title>
+     <link rel="stylesheet" href="../leaflet/leaflet.css" />
+    <script src="../leaflet/leaflet.js"></script>
+    <script src="../js/jquery-3.1.1.min.js"></script>
+	<style>
+        #map { width: 100%; height: 580px; }
+        body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
+        .ghbtns { position: relative; top: 4px; margin-left: 5px; }
+        a { color: #0077ff; }
+
+
+
+	.legend { padding: 6px 8px; font: 14px/16px Arial, Helvetica, sans-serif; background: white; background: rgba(255,255,255,0.8); box-shadow: 0 0 15px rgba(0,0,0,0.2); border-radius: 5px;}
+	.title {font: 26px Arial, Helvetica, sans-serif;}
+	</style>
+
+
+</head>
+<body>
+
+
+
+<div id="map"></div>
+
+
+<script src="leaflet-heat.js"></script>
+
+
+<script>
+
+coords16 = [];
+coords15 = [];
+
+$.getJSON("heating15.json", function( data ) {
+  console.log(data);
+  var i=0;
+  for(i=0;i<(data.length);i++){
+    coords15[i]=[(data[i].Latitude),(data[i].Longitude)]
+  }
+
+  $.getJSON( "heating16.json", function( data ) {
+    console.log(data);
+    var i=0;
+    for(i=0;i<(data.length);i++){
+    coords16[i]=[(data[i].Latitude),(data[i].Longitude)]
+    }
+
+
+var map = L.map('map').setView([40.692030, -73.986937], 10);
+var tiles = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	maxZoom: 18,
+	minZoom: 9,
+	id: 'mapbox.light'
+}).addTo(map);
+
+addressPoints16 = coords16.map(function (p) { return [p[0], p[1]]; });
+addressPoints15 = coords15.map(function (p) { return [p[0], p[1]]; });
+
+
+var heat16 = L.heatLayer(addressPoints16,{radius:7,blur:10}).addTo(map);
+
+var heat15= L.heatLayer(addressPoints15,{radius:7,blur:10});
+
+
+
+
+var baseMaps = {
+    "2016": heat16,
+    "2015": heat15
+};
+
+
+
+L.control.layers(baseMaps,null,{position: 'bottomleft',collapsed:false}).addTo(map);
+
+
+	var title = L.control( {position: 'topright'} );
+	title.onAdd = function () {
+		var div = L.DomUtil.create( 'div', 'info legend' );
+		div.innerHTML = '<strong> DBSCAN Cluster Analysis  </strong>';
+		return div;
+	};
+	title.addTo(map);
+
+
+	var legend16 = L.control( {position: 'bottomright'} );
+	legend16.onAdd = function () {
+		var div = L.DomUtil.create( 'div', 'info legend' );
+		div.innerHTML = '<strong> DBSCAN Clusters </strong>'+'</br>'+'<strong> Year :</strong>'+'2016'+'</br>'+'<strong> Complaint Type :</strong>'+'Heating'+'</br>'+'<strong> Clusters :</strong>'+'7'+'</br>'+'<strong> epsilon :</strong>'+'0.5km'
+		+'</br>'+'<strong> minPts :</strong>'+'2,500';
+		return div;
+	};
+
+
+
+
+	var legend15 = L.control( {position: 'bottomright'} );
+	legend15.onAdd = function () {
+		var div = L.DomUtil.create( 'div', 'info legend' );
+		div.innerHTML = '<strong> DBSCAN Clusters </strong>'+'</br>'+'<strong> Year :</strong>'+'2015'+'</br>'+'<strong> Complaint Type :</strong>'+'Heating'+'</br>'+'<strong> Clusters :</strong>'+'6'+'</br>'+'<strong> epsilon :</strong>'+'0.5km'
+		+'</br>'+'<strong> minPts :</strong>'+'2,500';
+		return div;
+	};
+
+currentLegend = legend16;
+legend16.addTo(map);
+
+	map.on('baselayerchange', function (eventLayer) {
+		if (eventLayer.name === '2016') {
+			map.removeControl(currentLegend );
+			currentLegend = legend16;
+			legend16.addTo(map);
+		}
+		else if (eventLayer.name === '2015') {
+			map.removeControl(currentLegend );
+			currentLegend = legend15;
+			legend15.addTo(map);
+		}
+	  })
+  });
+    });
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

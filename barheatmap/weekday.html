@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+   <head>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  </head>
+   <body>
+   <!-- Plotly chart will be drawn inside this div -->
+  <div id="plotly-div"></div>
+     <script>
+
+
+
+trace1 = {
+  x: ['Monday', 'Monday', 'Monday', 'Monday', 'Monday', 'Monday', 'Monday', 'Monday', 'Monday', 'Monday', 'Tuesday', 'Tuesday', 'Tuesday', 'Tuesday', 'Tuesday', 'Tuesday', 'Tuesday', 'Tuesday', 'Tuesday', 'Tuesday', 'Wednesday', 'Wednesday', 'Wednesday', 'Wednesday', 'Wednesday', 'Wednesday', 'Wednesday', 'Wednesday', 'Wednesday', 'Wednesday', 'Thursday', 'Thursday', 'Thursday', 'Thursday', 'Thursday', 'Thursday', 'Thursday', 'Thursday', 'Thursday', 'Thursday', 'Friday', 'Friday', 'Friday', 'Friday', 'Friday', 'Friday', 'Friday', 'Friday', 'Friday', 'Friday', 'Saturday', 'Saturday', 'Saturday', 'Saturday', 'Saturday', 'Saturday', 'Saturday', 'Saturday', 'Saturday', 'Saturday', 'Sunday', 'Sunday', 'Sunday', 'Sunday', 'Sunday', 'Sunday', 'Sunday', 'Sunday', 'Sunday', 'Sunday'],
+  y: ['Blocked Driveway', 'Heating', 'Illegal Parking', 'Noise', 'Paint Condition', 'Plumbing', 'Street Condition', 'Street Light Condition', 'Unsanitary Condition', 'Water System', 'Blocked Driveway', 'Heating', 'Illegal Parking', 'Noise', 'Paint Condition', 'Plumbing', 'Street Condition', 'Street Light Condition', 'Unsanitary Condition', 'Water System', 'Blocked Driveway', 'Heating', 'Illegal Parking', 'Noise', 'Paint Condition', 'Plumbing', 'Street Condition', 'Street Light Condition', 'Unsanitary Condition', 'Water System', 'Blocked Driveway', 'Heating', 'Illegal Parking', 'Noise', 'Paint Condition', 'Plumbing', 'Street Condition', 'Street Light Condition', 'Unsanitary Condition', 'Water System', 'Blocked Driveway', 'Heating', 'Illegal Parking', 'Noise', 'Paint Condition', 'Plumbing', 'Street Condition', 'Street Light Condition', 'Unsanitary Condition', 'Water System', 'Blocked Driveway', 'Heating', 'Illegal Parking', 'Noise', 'Paint Condition', 'Plumbing', 'Street Condition', 'Street Light Condition', 'Unsanitary Condition', 'Water System', 'Blocked Driveway', 'Heating', 'Illegal Parking', 'Noise', 'Paint Condition', 'Plumbing', 'Street Condition', 'Street Light Condition', 'Unsanitary Condition', 'Water System'],
+  z: ['31723', '74822', '31224', '80690', '23834', '19482', '33723', '20263', '29404', '22396', '31410', '71434', '32465', '74466', '24749', '19941', '37241', '21187', '29632', '22263', '30069', '59188', '31153', '76406', '23226', '18563', '36345', '21226', '28880', '22297', '31167', '56887', '32302', '80316', '21109', '16883', '35756', '22261', '25982', '21280', '31270', '63988', '31410', '100493', '19485', '15822', '27875', '19885', '23448', '22510', '31781', '65980', '25413', '171394', '9404', '9241', '15592', '4261', '13293', '15537', '31660', '60096', '27353', '161569', '8122', '7963', '18836', '4146', '12567', '14586'],
+  autocolorscale: false,
+  colorbar: {
+    thickness: 0.05,
+    thicknessmode: 'fraction',
+    tickfont: {size: 10},
+    title: '<br>'
+  },
+  colorscale: [['0', 'rgb(222,183,175)'], ['0.35', 'rgb(207,131,113)'], ['0.5', 'rgb(192,88,64)'], ['0.6', 'rgb(182,59,37)'], ['0.7', 'rgb(150,19,27)'], ['1', 'rgb(144,19,28)']],
+  name: 'Column 2',
+  type: 'heatmap',
+  uid: 'cb6778',
+  xsrc: 'nuts_nants:12:caab35',
+  ysrc: 'nuts_nants:12:5d5b02',
+  zauto: true,
+  zmax: 171394,
+  zmin: 4146,
+  zsrc: 'nuts_nants:12:d636c2'
+};
+data = [trace1];
+layout = {
+  autosize: false,
+  height: 600,
+  hovermode: 'closest',
+  margin: {
+    r: 0,
+    t: 90,
+    b: 170,
+    l: 120,
+    pad: 4
+  },
+  title: '&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Heatmap of the Total Complaints, per day',
+  titlefont: {size: 15},
+  width: 500,
+  xaxis: {
+    autorange: true,
+    range: [-0.5, 6.5],
+    tickfont: {size: 10},
+    ticklen: 5,
+    ticks: 'inside',
+    title: '<br>',
+    type: 'category'
+  },
+  yaxis: {
+    autorange: true,
+    range: [-0.5, 9.5],
+    tickfont: {size: 10},
+    ticklen: 5,
+    ticks: 'inside',
+    title: '<br>',
+    type: 'category'
+  }
+};
+Plotly.plot('plotly-div', {
+  data: data,
+  layout: layout
+});
+
+
+     </script>
+   </body>
+ </html>

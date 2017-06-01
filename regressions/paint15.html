@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+<!-- code provided by https://github.com/Tom-Alexander/regression-js -->
+<html>
+<head>
+  <title> ChartJS-LineGraph</title>
+  <script src="../js/highcharts.js"></script>
+  <script src="../js/exporting.js"></script>
+ <script src="../js/jquery-3.1.1.min.js"></script>
+<body>
+
+  <div id="container" style="min-width: 310px; height: 300px; margin: 0 auto"></div>
+  <script type="text/javascript" src="./build/regression.min.js"></script>
+
+
+<script>
+  var reg=[];
+  $.getJSON( "2015.json", function( data ) {
+    console.log(data);
+    var i=0;
+    for(i=0;i<(data.length);i++){
+      reg[i]=[(data[i].income),(data[i].paint_condition)]
+    }
+
+    var ymxb = regression('linear', reg);
+    // get the slope and x intercept from the equation
+    var m = ymxb.equation[0], b = ymxb.equation[1];
+
+    // create array of x values
+    var xs = [];
+    reg.forEach(function(d){
+      xs.push(d[0]);
+    });
+
+    // get the max and min values of x, and calculate
+    // the corresponding y value using that x, m, and b
+    var x0 = Math.min.apply(null, xs), y0 = m*x0 + b;
+    var xf = Math.max.apply(null, xs), yf = m*xf + b;
+
+
+  var c = m.toFixed(10);
+  var d = b.toFixed(4);
+
+  var content= "LR: y="+ c +"x + " + d;
+
+  Highcharts.chart('container', {
+      chart: {
+        type: 'scatter',
+        zoomType: 'xy',
+		height: '295px'
+      },
+      title: {
+        text: 'Paint Condition Complaints vs Income (2015)',
+		style: {fontSize: '13px', fontWeight: 'bold'}
+    },
+    xAxis: {
+      title: {
+        enabled: true,
+        text: 'Income ($)'
+      },
+      startOnTick: true,
+      endOnTick: true,
+      showLastLabel: true
+    },
+    yAxis: {
+      title: {
+        text: 'LQ'
+      },
+	   min: 0,
+            max: 4,
+            tickInterval: 1,
+    },
+    legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: 10,
+                y: 30,
+                floating: true,
+                backgroundColor: '#FFFFFF',
+                borderWidth: 0.5
+            },
+                    plotOptions: {
+                        scatter: {
+                            marker: {
+                                symbol: 'circle',
+								radius: 3,
+                                states: {
+                                    hover: {
+                                        enabled: false,
+                                        lineColor: 'rgb(0, 0, 219)'
+                                    }
+                                }
+                            },
+                            states: {
+                                hover: {
+                                    marker: {
+                                        enabled: false
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                headerFormat: '<b>{series.name}</b><br>',
+                                pointFormat: 'Income: ${point.x}, LQ: {point.y} '
+                            }
+                        }
+                    },
+                    series: [
+                        {
+                            type: 'line',
+                            color: 'rgb(0, 0, 219)',
+                            name: content,
+                            data: [[x0, y0], [xf, yf]], 
+                            marker: {
+                                enabled: false
+                            },
+                            states: {
+                                hover: {
+                                    lineWidth: 0
+                                }
+                            },
+                            enableMouseTracking: true
+                        },
+                        {
+                        name: 'Real',
+                        color: '#e4d354',
+                        data: reg
+                    }]
+                });
+});
+
+
+</script>
+</body>
+</html>
